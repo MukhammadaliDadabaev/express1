@@ -1,23 +1,30 @@
 import express from 'express'
-import path, {
-  dirname
-} from 'path'
+// import path, {
+//   dirname
+// } from 'path'
+// import {
+//   fileURLToPath
+// } from 'url'
 import {
-  fileURLToPath
-} from 'url'
-
-const __filename = fileURLToPath(
-  import.meta.url)
-const __dirname = dirname(__filename)
+  engine
+} from 'express-handlebars'
+// const __filename = fileURLToPath(
+//   import.meta.url)
+// const __dirname = dirname(__filename)
 
 const app = express()
 
+app.engine('hbs', engine())
+app.set('view engine', 'hbs')
+app.set('views', './views')
+
+
 app.get('/', (req, res) => {
-  res.sendFile(path.join(__dirname, 'views', 'index.html'))
+  res.render('index')
 })
 
 app.get('/about', (req, res) => {
-  res.sendFile(path.join(__dirname, 'views', 'about.html'))
+  res.render('about')
 })
 
 const PORT = process.env.PORT || 5000
