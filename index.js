@@ -18,8 +18,24 @@ app.get('/', (req, res) => {
   res.render('index')
 })
 
-app.get('/about', (req, res) => {
-  res.render('about')
+app.get('/main', (req, res) => {
+  res.render('main')
+})
+
+app.get('/products', (req, res) => {
+  res.render('products')
+})
+
+app.get('/add', (req, res) => {
+  res.render('add')
+})
+
+app.get('/register', (req, res) => {
+  res.render('register')
+})
+
+app.get('/login', (req, res) => {
+  res.render('login')
 })
 
 const PORT = process.env.PORT || 5000
