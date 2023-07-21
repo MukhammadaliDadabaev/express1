@@ -19,15 +19,23 @@ app.use(AuthRouters)
 app.use(ProductsRoutes)
 
 app.get('/', (req, res) => {
-  res.render('index')
+  res.render('index', {
+    title: "Best Shop | Ali"
+  })
 })
 
 app.get('/main', (req, res) => {
-  res.render('main')
+  res.render('main', {
+    title: "Main | Ali",
+    isMain: true
+  })
 })
 
 app.get('/add', (req, res) => {
-  res.render('add')
+  res.render('add', {
+    title: "Add Product | Ali",
+    isAdd: true
+  })
 })
 
 

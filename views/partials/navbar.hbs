@@ -23,17 +23,42 @@
         <span class="fs-4">Best Shop</span>
       </a>
       <nav class="d-inline-flex mt-2 mt-md-0 ms-md-auto">
-        <a
-          class="me-3 py-2 text-dark text-decoration-none"
-          href="/main"
-        >Main</a>
-        <a
-          class="me-3 py-2 text-dark text-decoration-none"
-          href="/products"
-        >Products</a>
-        <a class="me-3 py-2 text-dark text-decoration-none" href="/add">Add news</a>
-        <a class="btn btn-primary me-2" href="/login">Login</a>
-        <a class="btn btn-success" href="/register">Register</a>
+        {{#if isMain}}
+          <a class="me-3 py-2 text-dark" href="/main">Main</a>
+        {{else}}
+          <a
+            class="me-3 py-2 text-dark text-decoration-none"
+            href="/main"
+          >Main</a>
+        {{/if}}
+
+        {{#if isProduct}}
+          <a class="me-3 py-2 text-dark" href="/products">Products</a>
+        {{else}}
+          <a
+            class="me-3 py-2 text-dark text-decoration-none"
+            href="/products"
+          >Products</a>
+        {{/if}}
+
+        {{#if isAdd}}
+          <a class="me-3 py-2 text-dark" href="/add">Add news</a>
+        {{else}}
+          <a class="me-3 py-2 text-dark text-decoration-none" href="/add">Add
+            news</a>
+        {{/if}}
+
+        {{#if isLogin}}
+          <a class="btn btn-primary me-2 active" href="/login">Login</a>
+        {{else}}
+          <a class="btn btn-primary me-2" href="/login">Login</a>
+        {{/if}}
+
+        {{#if isRegister}}
+          <a class="btn btn-success active" href="/register">Register</a>
+        {{else}}
+          <a class="btn btn-success" href="/register">Register</a>
+        {{/if}}
       </nav>
     </div>
     <div class="pricing-header p-3 pb-md-4 mx-auto text-center">
