@@ -1,21 +1,28 @@
-import {
-  Router
-} from "express";
-const router = Router()
+import { Router } from "express";
+const router = Router();
 
-
-router.get('/register', (req, res) => {
-  res.render('register', {
+router.get("/register", (req, res) => {
+  res.render("register", {
     title: "Register | Ali",
-    isRegister: true
-  })
-})
+    isRegister: true,
+  });
+});
 
-router.get('/login', (req, res) => {
-  res.render('login', {
+router.get("/login", (req, res) => {
+  res.render("login", {
     title: "Login | Ali",
-    isLogin: true
-  })
-})
+    isLogin: true,
+  });
+});
 
-export default router
+router.post("/login", (req, res) => {
+  console.log(req.body);
+  res.redirect("/");
+});
+
+router.post("/register", (req, res) => {
+  console.log(req.body);
+  res.redirect("/");
+});
+
+export default router;
