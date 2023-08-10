@@ -1,7 +1,14 @@
 import express from "express";
-import { create } from "express-handlebars";
+import mongoose from "mongoose";
+import dotenv from "dotenv"
+import {
+  create
+} from "express-handlebars";
+
+// ROUTES
 import AuthRouters from "./routes/auth.js";
 import ProductsRoutes from "./routes/products.js";
+dotenv.config()
 
 const app = express();
 const hbs = create({
@@ -14,7 +21,10 @@ app.set("view engine", "hbs");
 app.set("views", "./views");
 
 app.use(express.static("public"));
-app.use(express.urlencoded({ extended: true }));
+app.use(express.urlencoded({
+  extended: true
+}));
+app.use(express.json());
 
 app.use(AuthRouters);
 app.use(ProductsRoutes);
@@ -39,5 +49,14 @@ app.get("/add", (req, res) => {
   });
 });
 
+mongoose.connect(process.env.MONGO_URI, {
+  useNewUrlParser: true,
+  useFindAndModify: false,
+  useUnifiedTopology: true
+}, () => console.log("MongoDB connect...👍"));
+
+
 const PORT = process.env.PORT || 5000;
 app.listen(PORT, () => console.log(`Server is running on port: ${PORT}...!`));
+
+// mongodb+srv://alidev:<password>@cluster0.xgqjd8f.mongodb.net/?retryWrites=true&w=majority
