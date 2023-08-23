@@ -49,10 +49,14 @@ app.get("/add", (req, res) => {
 });
 dotenv.config();
 
+const PORT = process.env.PORT || 5000;
+app.listen(PORT, () => console.log(`Server is running on port: ${PORT}...!`));
+
 const mongoURI = process.env.MONGO_URL;
 const connectToMongo = async () => {
   try {
     mongoose.set("strictQuery", false);
+    // mongoose.set('useFindAndModify', false);
     mongoose.connect(mongoURI);
     console.log("Connected to Mongo Successfully!...Ulandi...😎");
   } catch (error) {
@@ -60,6 +64,3 @@ const connectToMongo = async () => {
   }
 };
 connectToMongo();
-
-const PORT = process.env.PORT || 5000;
-app.listen(PORT, () => console.log(`Server is running on port: ${PORT}...!`));
