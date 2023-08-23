@@ -1,4 +1,6 @@
-import { Router } from "express";
+const {
+  Router
+} = require("express");
 const router = Router();
 
 router.get("/register", (req, res) => {
@@ -25,4 +27,4 @@ router.post("/register", (req, res) => {
   res.redirect("/");
 });
 
-export default router;
+module.exports = router

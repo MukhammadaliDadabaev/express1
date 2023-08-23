@@ -1,14 +1,13 @@
-import express from "express";
-import mongoose from "mongoose";
-import dotenv from "dotenv"
-import {
+const mongoose = require('mongoose')
+const express = require('express')
+const dotenv = require("dotenv")
+const {
   create
-} from "express-handlebars";
+} = require('express-handlebars')
 
 // ROUTES
-import AuthRouters from "./routes/auth.js";
-import ProductsRoutes from "./routes/products.js";
-dotenv.config()
+const AuthRouters = require('./routes/auth.js')
+const ProductsRoutes = require('./routes/products.js')
 
 const app = express();
 const hbs = create({
@@ -48,15 +47,19 @@ app.get("/add", (req, res) => {
     isAdd: true,
   });
 });
+dotenv.config();
 
-mongoose.connect(process.env.MONGO_URI, {
-  useNewUrlParser: true,
-  useFindAndModify: false,
-  useUnifiedTopology: true
-}, () => console.log("MongoDB connect...👍"));
-
+const mongoURI = process.env.MONGO_URL;
+const connectToMongo = async () => {
+  try {
+    mongoose.set("strictQuery", false);
+    mongoose.connect(mongoURI);
+    console.log("Connected to Mongo Successfully!");
+  } catch (error) {
+    console.log(error, "Ulandi...😎");
+  }
+};
+connectToMongo();
 
 const PORT = process.env.PORT || 5000;
 app.listen(PORT, () => console.log(`Server is running on port: ${PORT}...!`));
-
-// mongodb+srv://alidev:<password>@cluster0.xgqjd8f.mongodb.net/?retryWrites=true&w=majority
