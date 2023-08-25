@@ -1,13 +1,11 @@
-const mongoose = require('mongoose')
-const express = require('express')
-const dotenv = require("dotenv")
-const {
-  create
-} = require('express-handlebars')
+const mongoose = require("mongoose");
+const express = require("express");
+const dotenv = require("dotenv");
+const { create } = require("express-handlebars");
 
 // ROUTES
-const AuthRouters = require('./routes/auth.js')
-const ProductsRoutes = require('./routes/products.js')
+const AuthRouters = require("./routes/auth.js");
+const ProductsRoutes = require("./routes/products.js");
 
 const app = express();
 const hbs = create({
@@ -20,9 +18,11 @@ app.set("view engine", "hbs");
 app.set("views", "./views");
 
 app.use(express.static("public"));
-app.use(express.urlencoded({
-  extended: true
-}));
+app.use(
+  express.urlencoded({
+    extended: true,
+  })
+);
 app.use(express.json());
 
 app.use(AuthRouters);
@@ -55,8 +55,8 @@ app.listen(PORT, () => console.log(`Server is running on port: ${PORT}...!`));
 const mongoURI = process.env.MONGO_URL;
 const connectToMongo = async () => {
   try {
-    mongoose.set("strictQuery", false);
-    // mongoose.set('useFindAndModify', false);
+    // mongoose.set("strictQuery", false);
+    // mongoose.set("useFindAndModify", false);
     mongoose.connect(mongoURI);
     console.log("Connected to Mongo Successfully!...Ulandi...😎");
   } catch (error) {
