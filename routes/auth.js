@@ -18,13 +18,21 @@ router.get("/login", async (req, res) => {
 });
 
 router.post("/login", async (req, res) => {
-  const hashedLogin = await bcrypt.hash(req.body.password, 10);
-  const userData = {
-    email: req.body.email,
-    password: hashedLogin,
-  };
-  const user = await User.create(userData);
-  console.log(user);
+  const existUser = await User.findOne({ email: req.body.email });
+  if (!existUser) {
+    console.log("User not found");
+    return;
+  }
+
+  const isPassEquil = await bcrypt.compare(
+    req.body.password,
+    existUser.password
+  );
+  if (!isPassEquil) {
+    console.log("Password wrong");
+    return;
+  }
+  console.log(existUser);
   res.redirect("/");
 });
 
