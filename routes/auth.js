@@ -7,6 +7,7 @@ router.get("/register", async (req, res) => {
   res.render("register", {
     title: "Register | Ali",
     isRegister: true,
+    registerError: req.flash("registerError"),
   });
 });
 
@@ -14,22 +15,30 @@ router.get("/login", async (req, res) => {
   res.render("login", {
     title: "Login | Ali",
     isLogin: true,
+    loginError: req.flash("loginError"),
   });
 });
 
 router.post("/login", async (req, res) => {
-  const existUser = await User.findOne({ email: req.body.email });
-  if (!existUser) {
-    console.log("User not found");
+  const { email, password } = req.body;
+
+  if (!email || !password) {
+    req.flash("loginError", "All fields is required");
+    res.redirect("/login");
     return;
   }
 
-  const isPassEquil = await bcrypt.compare(
-    req.body.password,
-    existUser.password
-  );
+  const existUser = await User.findOne({ email });
+  if (!existUser) {
+    req.flash("loginError", "User not found");
+    res.redirect("/login");
+    return;
+  }
+
+  const isPassEquil = await bcrypt.compare(password, existUser.password);
   if (!isPassEquil) {
-    console.log("Password wrong");
+    req.flash("loginError", "Password wrong");
+    res.redirect("/login");
     return;
   }
   console.log(existUser);
@@ -37,11 +46,26 @@ router.post("/login", async (req, res) => {
 });
 
 router.post("/register", async (req, res) => {
-  const hashedPassword = await bcrypt.hash(req.body.password, 10);
+  const { firstname, lastname, email, password } = req.body;
+
+  if (!firstname || !lastname || !email || !password) {
+    req.flash("registerError", "All register required");
+    res.redirect("/register");
+    return;
+  }
+
+  const candidate = await User.findOne({ email });
+  if (candidate) {
+    req.flash("registerError", "User alread exist");
+    res.redirect("/register");
+    return;
+  }
+
+  const hashedPassword = await bcrypt.hash(password, 10);
   const userData = {
-    firsName: req.body.firstname,
-    lastName: req.body.lastname,
-    email: req.body.email,
+    firsName: firstname,
+    lastName: lastname,
+    email: email,
     password: hashedPassword,
   };
   const users = await User.create(userData);

@@ -1,5 +1,7 @@
 const mongoose = require("mongoose");
 const express = require("express");
+const flash = require("connect-flash");
+const session = require("express-session");
 const dotenv = require("dotenv");
 const { create } = require("express-handlebars");
 
@@ -24,6 +26,14 @@ app.use(
   })
 );
 app.use(express.json());
+app.use(
+  session({
+    secret: "keyboard cat",
+    resave: false,
+    saveUninitialized: true,
+  })
+);
+app.use(flash());
 
 app.use(AuthRouters);
 app.use(ProductsRoutes);
